@@ -21,7 +21,7 @@ def fetch_sun_data(latitude, longitude):
             data['date'] = formatted_date
             sun_data.append(data)
 
-        current_date += timedelta(days=20)
+        current_date += timedelta(days=30)
 
     return sun_data
 
