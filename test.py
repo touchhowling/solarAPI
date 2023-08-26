@@ -2,8 +2,16 @@ import requests
 from datetime import datetime, timedelta
 import math
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 app=FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 def fetch_sun_data(latitude, longitude):
     url = 'https://api.sunrise-sunset.org/json'
     start_date = datetime(2022, 1, 1)
@@ -47,9 +55,6 @@ async def calculate_percentage(latitude: float, longitude: float):
     sun_data = fetch_sun_data(50, 70)
     average_day_seconds = calculate_average(sun_data)
     k = 0.12 # Adjust this value as needed
-    average_day_second = 40000  # Adjust this value as needed
-
-    percentage = 100 * (1 - math.exp(-k * (average_day_second / 3600)))
-
+    percentage = 100 * (1 - math.exp(-k * (average_day_seconds / 3600)))
     print(percentage)
     return {"latitude": latitude, "longitude": longitude, "percentage": percentage}
